@@ -91,6 +91,23 @@
             min-width: 150px;
         }
 
+        .time-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .time-input-container input[type="time"] {
+            margin: 0;
+        }
+
+        .time-input-container select {
+            margin: 0;
+            font-size: 14px;
+        }
+
         .add-med-form button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -249,12 +266,12 @@
             font-size: 0.9em;
         }
 
-        @media (max-width: 768px) {
+            @media (max-width: 768px) {
             .add-med-form {
                 flex-direction: column;
             }
             
-            .add-med-form input, .add-med-form select, .add-med-form button {
+            .add-med-form input, .add-med-form select, .add-med-form button, .time-input-container {
                 width: 100%;
             }
             
@@ -305,15 +322,21 @@
             <div class="add-med-form">
                 <input type="text" id="medName" placeholder="Nombre del medicamento">
                 <input type="text" id="medDose" placeholder="Dosis (ej: 75mg)">
-                <select id="medTime">
-                    <option value="">Horario</option>
-                    <option value="6 HS">6 HS</option>
-                    <option value="10 HS">10 HS</option>
-                    <option value="14 HS">14 HS</option>
-                    <option value="18 HS">18 HS</option>
-                    <option value="21:30">21:30</option>
-                    <option value="22 HS">22 HS</option>
-                </select>
+                <div class="time-input-container">
+                    <input type="time" id="medTimeInput" placeholder="Horario personalizado">
+                    <select id="medTimePreset">
+                        <option value="">O selecciona horario común</option>
+                        <option value="06:00">6:00 AM</option>
+                        <option value="08:00">8:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                        <option value="20:00">8:00 PM</option>
+                        <option value="21:30">9:30 PM</option>
+                        <option value="22:00">10:00 PM</option>
+                    </select>
+                </div>
                 <button onclick="addMedication()">+ Agregar</button>
             </div>
         </div>
@@ -378,7 +401,34 @@
         });
 
         // Registrar Service Worker para PWA
-        function registerServiceWorker() {
+        // Sincronizar inputs de tiempo
+        document.getElementById('medTimeInput').addEventListener('change', function() {
+            if (this.value) {
+                document.getElementById('medTimePreset').value = '';
+            }
+        });
+
+        document.getElementById('medTimePreset').addEventListener('change', function() {
+            if (this.value) {
+                document.getElementById('medTimeInput').value = '';
+            }
+        });
+
+        function formatTime(time) {
+            if (!time) return '';
+            
+            // Si es formato HH:MM, convertir a formato más legible
+            if (time.includes(':')) {
+                const [hours, minutes] = time.split(':');
+                const hour24 = parseInt(hours);
+                const isPM = hour24 >= 12;
+                const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
+                const period = isPM ? 'PM' : 'AM';
+                return `${hour12}:${minutes} ${period}`;
+            }
+            
+            return time;
+        }
             if ('serviceWorker' in navigator) {
                 const swCode = `
                     const CACHE_NAME = 'meds-tracker-v1';
@@ -432,7 +482,11 @@
         function addMedication() {
             const name = document.getElementById('medName').value.trim();
             const dose = document.getElementById('medDose').value.trim();
-            const time = document.getElementById('medTime').value;
+            const customTime = document.getElementById('medTimeInput').value;
+            const presetTime = document.getElementById('medTimePreset').value;
+            
+            // Usar horario personalizado o preset
+            const time = customTime || presetTime;
 
             if (!name) {
                 alert('Por favor ingresa el nombre del medicamento');
@@ -455,7 +509,8 @@
             // Limpiar formulario
             document.getElementById('medName').value = '';
             document.getElementById('medDose').value = '';
-            document.getElementById('medTime').value = '';
+            document.getElementById('medTimeInput').value = '';
+            document.getElementById('medTimePreset').value = '';
         }
 
         function deleteMedication(id) {
@@ -488,7 +543,7 @@
                 nameCell.innerHTML = `
                     ${med.name}
                     ${med.dose ? `<div class="med-dose">${med.dose}</div>` : ''}
-                    ${med.time ? `<div class="med-dose">${med.time}</div>` : ''}
+                    ${med.time ? `<div class="med-dose">${formatTime(med.time)}</div>` : ''}
                     <button class="delete-btn" onclick="deleteMedication(${med.id})">×</button>
                 `;
                 row.appendChild(nameCell);
@@ -599,20 +654,25 @@
                 return;
             }
 
-            // Simular programación (en una app real usarías Service Workers)
-            alert(`Se han programado ${medicationsWithTime.length} recordatorios. 
-                   Nota: Para recordatorios persistentes, agrega esta página a tu pantalla de inicio.`);
+            // Mostrar resumen de recordatorios programados
+            const remindersList = medicationsWithTime.map(med => 
+                `${med.name} - ${formatTime(med.time)}`
+            ).join('\n');
+
+            alert(`Se han programado ${medicationsWithTime.length} recordatorios:\n\n${remindersList}\n\nNota: Para recordatorios persistentes, agrega esta página a tu pantalla de inicio.`);
             
             // Ejemplo de recordatorio inmediato para demostración
             setTimeout(() => {
                 if (Notification.permission === 'granted') {
                     new Notification('Recordatorio de Medicamento', {
-                        body: `Es hora de tomar: ${medicationsWithTime[0].name}`,
+                        body: `Es hora de tomar: ${medicationsWithTime[0].name} (${formatTime(medicationsWithTime[0].time)})`,
                         icon: '💊'
                     });
                 }
             }, 5000); // Notificación de prueba en 5 segundos
         }
+
+        function registerServiceWorker() {
 
         // Función para exportar datos (útil para respaldo)
         function exportData() {
