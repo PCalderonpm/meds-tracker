@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguidor de Medicamentos</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Meds Tracker">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNlZ3VpZG9yIGRlIE1lZGljYW1lbnRvcyIsCiAgInNob3J0X25hbWUiOiAiTWVkcyBUcmFja2VyIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTV6TXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBNU5pQTVOaUlnWm1sc2JEMGlJelkyTjJWbFlTSStQR05wY21Oc1pTQmplRDBpTkRnaUlHTjVQU0kwT0NJZ2NqMGlNemNpTHo0OGRHVjRkQ0I0UFNJME9DSWdlVDBpTlRnaUlHWnBiR3c5SW1acFpteGtabVlpSUdadmJuUXRjMmw2WlQwaU1USWlJSFJsZUhRdFlXNWphRzl5UFNKdGFXUmtiR1VpUGprdU1qQThMM1JsZUhRK1BDOTJZEJFK1BIVnhkSEI0UHpBME4yTXVXWGswSWpzOWJtVjNJRTVoZEdsbWFXTmhkR2x2YmlnaFYybDNaRzkzSUVGc1pYSjBKeXNuUkdWa2FXTmhaRzhnWVNCMFpXMXVWVzhTUWdJT1RqWlJoQWRSUDR2TFZabEpEc2dLVHVhKzNjdmc2YlpzcGFNL3VtUnBLaUJrTDEwQ3FINWx3djUvY0d1RHh3Ly9nSVRJOGZYSCs4Zi9OZFhxZjlqQjhKTkRNMC9VdWNOK3BYVWJlZFpxNHVxMU1hdDU4OG1wclJUNU5abFdlRDFTLzI5NWZoU05wcXE3dDBrbUVvWStEMS8vaDZmNUxEOHJsaGUvT0xkZTYrVWZ1TmJPdWdsZGxnN2NwejRzOGJhSDdabTlqUTNZenNoekI4Y2Mxd0JvVGorRlE1MDN5ZXNreFBSLzVHdEh4bm5JN3FzSWc3TlRoN05YNjFmT2o2N2xZZ1Vtb0JkUkhNUVRicklqUFlWZjFjb1l0RFNKLys4RGNmeWlMUWx3QUxMZVYxWE00ZDRLVUZ3UGJROWJNejhXTlhYM1B3WEh6eXJxYzd1M1E5ZzY1c00wYW92Tm0yNDhxMUFnZVFhZUNaWStSMXUzTWRxMjVPL2p3bklsbE8vMElWTTl0NkpkOFBEOFAiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NXpNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGREYjNnOUlqQWdNQ0E1TmlBNU5pSWdabWxzYkQwaUl6WTJOMlZsWVNJK1BHTnBjbU5zWlNCamVEMGlORGdpSUdONVBTSTBPQ0lnY2owaU16Y2lMejQ4ZEdWNGRDQjRQU0kwT0NJZ2VUMGlOVGdpSUdacGJHdzlJbVpwWm1aa1ptWWlJR1p2Ym5RdGMybDZaVDBpTVRJaUlIUmxlSFF0WVc1amFHOXlQU0p0YVdSa2JHVWlQanN1TWpBOEwzUmxlSFErUEM5Mlp5SWdJRFU3Y1I5Z1dlaXFPclJQaUFaUUlGaVNMdFRwNVlkMXZwKzhqZEsxZEpnMDJYeUZEVHRHVEtmaWN6U2VWMnRiWXZQUzMzV2xaK0Z6RHdmbitjV2dqdVZiK01YelBleGQwdE1qYnFtTVdWTWJiL1p5L2NlNXV0VlowTTN6Y2V5VzVqVGozSVowV3JnZXVWWnNOV0ZSZXRJa1lldWJ6VTVaQ0Z6YnZjSUw5K0lhODl1M2ZUemgvKzNmUXJKT3Q2ZkhUWmlCWGc4RnIwcVkzN3p1cStZbW05VnJQeE5vNU5hT2RMV0ZTUGdERFF0VHQ3VGV0NEUxNzE1TjYzblI5NFNuKzRwUis0QnVOUTZGMS9ZWHlWTFhFZnQzVEpxNStwUXdKWUFJZG1BTmFzTDJiSUM1UnZzV3U4VG1XSHorYjJsZWtOQXZLTDRnZXU5OVRLaEZMc0pqNXIwZ29Ldlo5bGc3SGcxd09VTWIxOC9LN1c2NDExZ0FkNFk0TnZhQlRVMmNySk1jOXhpMWxUVkhqUExuSE9ReDEvakFNd0pKdDlNVWR2dUpqanc5dFNNSFV6QXFQUTJ2cXViaTNlR3BxaWt2U1NwdGFXU3JYY3o5c0xrM3JKZllVdmFIdlhkM1A4c09aMGNiTFBBSzdTODlEaU1YTm1xM3ZpL0Fiak13VUhVVDQ1V3VPMm5TbVpmSGkyc3REL1VDTVdYUEV5RU1WMkJQMm5aU0xwWUpMTjc4VWRKbVdSOVlFdCtyLzM0dmJ6M2ViMC9mQlg4aTU1dGlLcGo2NUZGbkZCdmllREFyT2oyTTM1WGE4VTkrbFFKR05oN2lMVTMxVzF0anM5Qy9RTWxWQzV3MFZFQ0xpL3RzT3VGaDFpUjlRZmdDRUc3S3RWckUzY3c3N0Y3M0IrUmF6Nk40ZnFQeVBQalczK2ZqbGNYamhOT1pBcXVNbWZ5WVhyWHNQK0FLYTZ6UlhXUW9sZStCM3FZaDVOWXVXeUlnN1J3Wlg5TkdPdXNPdVMyOERoUTVQYlBYL3l4VUZCL3E1N2ZLR3E5TGUrbGQ2aXpSaUFya1ZJMitPV3dyVGNwNUxWa0VtNkZQVG5pM1BlYUJJRnJlT3NHcVVGa0w1SkJWUVFWUXJHNGpzOGxhYTJ6dEVhVklkQ3NSc0F1cFhYUCtNbXFvZWtSRGptTSs1RmthWG1yQXRTK253b1lSWUptK1REdDJYV0hzdG9vY1dKU2pKVHhNQ3dBSDNNS0NBWXpEOXJwKzNPVEJMWWtOQjBJaThvSy9sKzF3SXZKYkl6cTByZDNLN1BtNFE3dkxmeGdHNDBGQnlOWjBNaUFCQ0psOVcyaWNubE43SkUxblNYWkVJMmNwQ3VrWEk4K3I0WTVreXVlZVFKWDBPNmF4OXlQWko0TU1JVnduNFhuZG9PNGw5QkpNcjhLV1NqZlFvOUQ1N1oxWmJXajVTbVUyUWh4dEZxcnB0YmIrOSIsOwogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0iIzY2N2VlYSI+PGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iMzciLz48dGV4dCB4PSI0OCIgeT0iNTgiIGZpbGw9ImZpZmZmZmYiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfjKo8L3RleHQ+PC9zdmc+">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .week-selector {
+            margin: 10px 0;
+        }
+
+        .week-selector input {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .week-selector input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .add-med-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .add-med-form input, .add-med-form select {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .add-med-form button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .add-med-form button:hover {
+            transform: translateY(-2px);
+        }
+
+        .meds-table {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 15px 10px;
+            text-align: center;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .med-name {
+            text-align: left !important;
+            font-weight: bold;
+            color: #333;
+            position: relative;
+        }
+
+        .med-dose {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .checkbox-cell {
+            position: relative;
+        }
+
+        .checkbox-cell input[type="checkbox"] {
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #ddd;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-cell input[type="checkbox"]:checked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+
+        .checkbox-cell input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .dose-input {
+            width: 60px;
+            padding: 8px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .notifications {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .notification-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .notification-controls button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .add-med-form {
+                flex-direction: column;
+            }
+            
+            .add-med-form input, .add-med-form select, .add-med-form button {
+                width: 100%;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 10px 5px;
+            }
+            
+            .med-name {
+                min-width: 120px;
+            }
+        }
+
+        .permission-status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .permission-granted {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .permission-denied {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Seguidor de Medicamentos</h1>
+            <div class="week-selector">
+                <input type="week" id="weekSelector" placeholder="Seleccionar semana">
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="add-med-form">
+                <input type="text" id="medName" placeholder="Nombre del medicamento">
+                <input type="text" id="medDose" placeholder="Dosis (ej: 75mg)">
+                <select id="medTime">
+                    <option value="">Horario</option>
+                    <option value="6 HS">6 HS</option>
+                    <option value="10 HS">10 HS</option>
+                    <option value="14 HS">14 HS</option>
+                    <option value="18 HS">18 HS</option>
+                    <option value="21:30">21:30</option>
+                    <option value="22 HS">22 HS</option>
+                </select>
+                <button onclick="addMedication()">+ Agregar</button>
+            </div>
+        </div>
+
+        <div class="meds-table">
+            <table id="medsTable">
+                <thead>
+                    <tr>
+                        <th>MEDICAMENTO</th>
+                        <th>LUN</th>
+                        <th>MAR</th>
+                        <th>MIÉ</th>
+                        <th>JUE</th>
+                        <th>VIE</th>
+                        <th>SÁB</th>
+                        <th>DOM</th>
+                    </tr>
+                </thead>
+                <tbody id="medsTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="notifications">
+            <h3>🔔 Recordatorios</h3>
+            <div id="permissionStatus"></div>
+            <div class="notification-controls">
+                <button onclick="requestNotificationPermission()">Activar Notificaciones</button>
+                <button onclick="testNotification()">Probar Notificación</button>
+                <button onclick="scheduleReminders()">Programar Recordatorios</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalMeds">0</div>
+                    <div class="stat-label">Medicamentos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedToday">0</div>
+                    <div class="stat-label">Tomados Hoy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="weeklyProgress">0%</div>
+                    <div class="stat-label">Progreso Semanal</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let medications = [];
+        let currentWeek = '';
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            setCurrentWeek();
+            loadData();
+            renderTable();
+            updateStats();
+            checkNotificationPermission();
+            registerServiceWorker();
+        });
+
+        // Registrar Service Worker para PWA
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    const CACHE_NAME = 'meds-tracker-v1';
+                    const urlsToCache = ['/'];
+
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(cache => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then(response => response || fetch(event.request))
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => console.log('SW registrado'))
+                    .catch(error => console.log('SW falló:', error));
+            }
+        }
+
+        function setCurrentWeek() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const week = getWeekNumber(now);
+            currentWeek = `${year}-W${week.toString().padStart(2, '0')}`;
+            document.getElementById('weekSelector').value = currentWeek;
+        }
+
+        function getWeekNumber(date) {
+            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+            const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
+            return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+        }
+
+        document.getElementById('weekSelector').addEventListener('change', function() {
+            currentWeek = this.value;
+            loadData();
+            renderTable();
+            updateStats();
+        });
+
+        function addMedication() {
+            const name = document.getElementById('medName').value.trim();
+            const dose = document.getElementById('medDose').value.trim();
+            const time = document.getElementById('medTime').value;
+
+            if (!name) {
+                alert('Por favor ingresa el nombre del medicamento');
+                return;
+            }
+
+            const medication = {
+                id: Date.now(),
+                name: name,
+                dose: dose,
+                time: time,
+                schedule: [false, false, false, false, false, false, false] // Lun-Dom
+            };
+
+            medications.push(medication);
+            saveData();
+            renderTable();
+            updateStats();
+
+            // Limpiar formulario
+            document.getElementById('medName').value = '';
+            document.getElementById('medDose').value = '';
+            document.getElementById('medTime').value = '';
+        }
+
+        function deleteMedication(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este medicamento?')) {
+                medications = medications.filter(med => med.id !== id);
+                saveData();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        function toggleMedication(id, dayIndex) {
+            const med = medications.find(m => m.id === id);
+            if (med) {
+                med.schedule[dayIndex] = !med.schedule[dayIndex];
+                saveData();
+                updateStats();
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('medsTableBody');
+            tbody.innerHTML = '';
+
+            medications.forEach(med => {
+                const row = document.createElement('tr');
+                
+                const nameCell = document.createElement('td');
+                nameCell.className = 'med-name';
+                nameCell.innerHTML = `
+                    ${med.name}
+                    ${med.dose ? `<div class="med-dose">${med.dose}</div>` : ''}
+                    ${med.time ? `<div class="med-dose">${med.time}</div>` : ''}
+                    <button class="delete-btn" onclick="deleteMedication(${med.id})">×</button>
+                `;
+                row.appendChild(nameCell);
+
+                // Días de la semana
+                for (let i = 0; i < 7; i++) {
+                    const dayCell = document.createElement('td');
+                    dayCell.className = 'checkbox-cell';
+                    dayCell.innerHTML = `
+                        <input type="checkbox" 
+                               ${med.schedule[i] ? 'checked' : ''} 
+                               onchange="toggleMedication(${med.id}, ${i})">
+                    `;
+                    row.appendChild(dayCell);
+                }
+
+                tbody.appendChild(row);
+            });
+        }
+
+        function saveData() {
+            const data = {
+                [currentWeek]: medications
+            };
+            const existingData = JSON.parse(localStorage.getItem('medsTracker') || '{}');
+            const updatedData = { ...existingData, ...data };
+            localStorage.setItem('medsTracker', JSON.stringify(updatedData));
+        }
+
+        function loadData() {
+            const allData = JSON.parse(localStorage.getItem('medsTracker') || '{}');
+            medications = allData[currentWeek] || [];
+        }
+
+        function updateStats() {
+            const totalMeds = medications.length;
+            const today = new Date().getDay();
+            const todayIndex = today === 0 ? 6 : today - 1; // Convertir domingo=0 a índice de array
+            
+            const completedToday = medications.filter(med => med.schedule[todayIndex]).length;
+            
+            const totalScheduled = medications.length * 7;
+            const totalCompleted = medications.reduce((sum, med) => 
+                sum + med.schedule.filter(day => day).length, 0);
+            const weeklyProgress = totalScheduled > 0 ? Math.round((totalCompleted / totalScheduled) * 100) : 0;
+
+            document.getElementById('totalMeds').textContent = totalMeds;
+            document.getElementById('completedToday').textContent = completedToday;
+            document.getElementById('weeklyProgress').textContent = weeklyProgress + '%';
+        }
+
+        // Funciones de notificaciones
+        function checkNotificationPermission() {
+            const status = document.getElementById('permissionStatus');
+            
+            if (!('Notification' in window)) {
+                status.innerHTML = '<div class="permission-denied">Tu navegador no soporta notificaciones</div>';
+                return;
+            }
+
+            if (Notification.permission === 'granted') {
+                status.innerHTML = '<div class="permission-granted">✅ Notificaciones activadas</div>';
+            } else if (Notification.permission === 'denied') {
+                status.innerHTML = '<div class="permission-denied">❌ Notificaciones bloqueadas</div>';
+            } else {
+                status.innerHTML = '<div class="permission-denied">⚠️ Notificaciones no configuradas</div>';
+            }
+        }
+
+        function requestNotificationPermission() {
+            if (!('Notification' in window)) {
+                alert('Tu navegador no soporta notificaciones');
+                return;
+            }
+
+            Notification.requestPermission().then(permission => {
+                checkNotificationPermission();
+                if (permission === 'granted') {
+                    alert('¡Notificaciones activadas correctamente!');
+                } else {
+                    alert('Para recibir recordatorios, activa las notificaciones en la configuración del navegador');
+                }
+            });
+        }
+
+        function testNotification() {
+            if (Notification.permission === 'granted') {
+                new Notification('Recordatorio de Medicamento', {
+                    body: 'Esta es una notificación de prueba del seguidor de medicamentos',
+                    icon: '💊'
+                });
+            } else {
+                alert('Primero debes activar las notificaciones');
+            }
+        }
+
+        function scheduleReminders() {
+            if (Notification.permission !== 'granted') {
+                alert('Primero activa las notificaciones');
+                return;
+            }
+
+            // Programar recordatorios para medicamentos con horario
+            const medicationsWithTime = medications.filter(med => med.time);
+            
+            if (medicationsWithTime.length === 0) {
+                alert('No hay medicamentos con horario programado');
+                return;
+            }
+
+            // Simular programación (en una app real usarías Service Workers)
+            alert(`Se han programado ${medicationsWithTime.length} recordatorios. 
+                   Nota: Para recordatorios persistentes, agrega esta página a tu pantalla de inicio.`);
+            
+            // Ejemplo de recordatorio inmediato para demostración
+            setTimeout(() => {
+                if (Notification.permission === 'granted') {
+                    new Notification('Recordatorio de Medicamento', {
+                        body: `Es hora de tomar: ${medicationsWithTime[0].name}`,
+                        icon: '💊'
+                    });
+                }
+            }, 5000); // Notificación de prueba en 5 segundos
+        }
+
+        // Función para exportar datos (útil para respaldo)
+        function exportData() {
+            const allData = localStorage.getItem('medsTracker');
+            const blob = new Blob([allData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'medicamentos_backup.json';
+            a.click();
+        }
+    </script>
+</body>
+</html>
