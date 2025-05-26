@@ -3,819 +3,686 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguidor de Medicamentos Avanzado</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary-start': '#667eea',
-                        'primary-end': '#764ba2',
-                        'secondary-start': '#4facfe',
-                        'secondary-end': '#00f2fe',
-                        'danger-start': '#ff6b6b',
-                        'danger-end': '#ee5a24',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Meds Tracker">
-    <meta name="mobile-web-app-capable" content="yes">
-
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNlZ3VpZG9yIGRlIE1lZGljYW1lbnRvcyBBdmFuemFkbyIsCiAgInNob3J0X25hbWUiOiAiTWVkcyBUcmFja2VyIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjNjY3ZWVhIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTV6TXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBNU5pQTVOaUlnWm1sc2JEMGlJelkyTjJWbFlTSStQR05wY21Oc1pTQmplRDBpTkRnaUlHTjVQU0kwT0NJZ2NqMGlNemNpTHo0OGRHVjRkQ0I0UFNJME9DSWdlVDBpTlRnaUlHWnBiR3c5SW1acFpteGtabVlpSUdadmJuUXRjMmw2WlQwaU1USWlJSFJsZUhRdFlXNWphRzl5UFNKdGFXUmtiR1VpUGprdU1qQThMM1JsZUhRK1BDOTJZEJFK1BIVnhkSEI0UHpBME4yTXVXWGswSWpzOWJtVjNJRTVoZEdsbWFXTmhkR2x2YmlnaFYybDNaRzkzSUVGc1pYSjBKeXNuUkdWa2FXTmhaRzhnWVNCMFpXMXVWVzhTUWdJT1RqWlJoQWRSUDR2TFZabEpEc2dLVHVhKzNjdmc2YlpzcGFNL3VtUnBLaUJrTDEwQ3FINWx3djUvY0d1RHh3Ly9nSVRJOGZYSCs4Zi9OZFhxZjlqQjhKTkRNMC9VdWNOK3BYVWJlZFpxNHVxMU1hdDU4OG1wclJUNU5abFdlRDFTLzI5NWZoU05wcXE3dDBrbUVvWStEMS8vaDZmNUxEOHJsaGUvT0xkZTYrVWZ1TmJPdWdsZGxnN2NwejRzOGJhSDdabTlqUTNZenNoekI4Y2Mxd0JvVGorRlE1MDN5ZXNreFBSLzVHdEh4bm5JN3FzSWc3TlRoN05YNjFmT2o2N2xZZ1Vtb0JkUkhNUVRicklqUFlWZjFjb1l0RFNKLys4RGNmeWlMUWx3QUxMZVYxWE00ZDRLVUZ3UGJROWJNejhXTlhYM1B3WEh6eXJxYzd1M1E5ZzY1c00wYW92Tm0yNDhxMUFnZVFhZUNaWStSMXUzTWRxMjVPL2p3bklsbE8vMElWTTl0NkpkOFBEOFAiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NXpNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGREYjNnOUlqQWdNQ0E1TmlBNU5pSWdabWxzYkQwaUl6WTJOMlZsWVNJK1BHTnBjbU5zWlNCamVEMGlORGdpSUdONVBTSTBPQ0lnY2owaU16Y2lMejQ4ZEdWNGRDQjRQU0kwT0NJZ2VUMGlOVGnaUlHWnBiR3c5SW1acFpteGtabVlpSUdadmJuUXRjMmw2WlQwaU1USWlJSFJsZUhRdFlXNWphRzl5UFNKdGFXUmtiR1VpUGpzcU1qQThMM1JsZUhRK1BDOTJZEJFK1BIVnhkSEI0UHpBME4yTXVXWGswSWpzOWJtVjNJRTVoZEdsbWFXTmhkR2x2YmlnaFYybDNaRzkzSUVGc1pYSjBKeXNuUkdWa2FXTmhaRzhnWVNCMFpXMXVWVzhTUWdJT1RqWlJoQWRSUDR2TFZabEpEc2dLVHVhKzNjdmc2YlpzcGFNL3VtUnBLaUJrTDEwQ3FINWx3djUvY0d1RHh3Ly9nSVRJOGZYSCs4Zi9OZFhxZjlqQjhKTkRNMC9VdWNOK3BYVWJlZFpxNHVxMU1hdDU4OG1wclJUNU5abFdlRDFTLzI5NWZoU05wcXE3dDBrbUVvWStEMS8vaDZmNUxEOHJsaGUvT0xkZTYrVWZ1TmJPdWdsZGxnN2NwejRzOGJhSDdabTlqUTNZenNoekI4Y2Mxd0JvVGorRlE1MDN5ZXNreFBSLzVHdEh4bm5JN3FzSWc3TlRoN05YNjFmT2o2N2xZZ1Vtb0JkUkhNUVRicklqUFlWZjFjb1l0RFNKLys4RGNmeWlMUWx3QUxMZVYxWE00ZDRLVUZ3UGJROWJNejhXTlhYM1B3WEh6eXJxYzd1M1E5ZzY1c00wYW92Tm0yNDhxMUFnZVFhZUNaWStSMXUzTWRxMjVPL2p3bklsbE8vMElWTTl0NkpkOFBEOFAiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9Cg==">
-
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0iIzY2N2VlYSI+PGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iMzciLz48dGV4dCB4PSI0OCIgeT0iNTgiIGZpbGw9ImZpZmZmZmYiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfjKo8L3RleHQ+PC9zdmc+">
-
+    <title>Mis Medicamentos</title>
     <style>
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        /* Ensure body takes full height and apply gradient */
-        html, body {
-            min-height: 100vh;
+        * {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
+
         body {
-            background: linear-gradient(135deg, theme('colors.primary-start') 0%, theme('colors.primary-end') 100%);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e8f5e8, #f0f8ff);
+            min-height: 100vh;
+            font-size: 18px;
+            line-height: 1.6;
         }
-        /* Custom checkbox style */
-        .custom-checkbox {
-            appearance: none;
-            width: 28px;
-            height: 28px;
-            border: 3px solid #ddd;
-            border-radius: 50%;
-            position: relative;
+
+        .container {
+            max-width: 100%;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .week-selector {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .week-selector label {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .week-selector input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: #f8f9fa;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            vertical-align: middle; /* Align checkbox with text */
         }
-        .custom-checkbox:checked {
-            background: linear-gradient(135deg, theme('colors.primary-start') 0%, theme('colors.primary-end') 100%);
-            border-color: theme('colors.primary-start');
+
+        .tab.active {
+            background: #4a90e2;
+            color: white;
         }
-        .custom-checkbox:checked::after {
+
+        .tab:hover {
+            background: #357abd;
+            color: white;
+        }
+
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Formulario Agregar Medicamento */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+
+        .days-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .day-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .day-checkbox:hover {
+            background: #e9ecef;
+        }
+
+        .day-checkbox.selected {
+            background: #4a90e2;
+            color: white;
+            border-color: #357abd;
+        }
+
+        .day-checkbox input {
+            width: auto;
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #218838, #1c9b82);
+            transform: translateY(-2px);
+        }
+
+        /* Lista de Medicamentos */
+        .med-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .med-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 6px solid #4a90e2;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .med-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .med-dose {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .med-schedule {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .med-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Seguimiento Semanal */
+        .weekly-tracker {
+            overflow-x: auto;
+        }
+
+        .tracker-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .tracker-table th,
+        .tracker-table td {
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+        }
+
+        .tracker-table th {
+            background: #4a90e2;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tracker-table td {
+            background: white;
+            font-size: 16px;
+        }
+
+        .med-name-cell {
+            text-align: left;
+            font-weight: bold;
+            background: #f8f9fa !important;
+            min-width: 150px;
+        }
+
+        .check-circle {
+            width: 35px;
+            height: 35px;
+            border: 3px solid #28a745;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .check-circle.checked {
+            background: #28a745;
+        }
+
+        .check-circle.checked::after {
             content: '✓';
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
         }
-        /* Modal styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 400px;
+
+        .empty-state {
             text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .tab {
+                font-size: 14px;
+                padding: 12px 8px;
+            }
         }
     </style>
 </head>
-<body class="p-2 sm:p-4">
-    <div class="container max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <div class="header bg-gradient-to-r from-secondary-start to-secondary-end text-white p-5 text-center rounded-t-2xl">
-            <h1 class="text-3xl font-bold mb-2">📊 Seguidor de Medicamentos</h1>
-            <div class="week-selector">
-                <input type="week" id="weekSelector" class="bg-white/20 border-2 border-white/30 text-white p-2.5 rounded-lg text-base focus:ring-2 focus:ring-white/50 outline-none">
-            </div>
-            <div class="mt-2 text-xs">
-                <span class="font-semibold">ID de Usuario:</span> <span id="userIdDisplay" class="break-all">Cargando...</span>
-            </div>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💊 Mis Medicamentos</h1>
+            <p>Seguimiento fácil y seguro</p>
         </div>
 
-        <div class="controls p-5 bg-gray-50 border-b border-gray-200">
-            <div class="add-med-form grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-                <input type="text" id="medName" placeholder="Nombre del medicamento" class="p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-start focus:border-primary-start outline-none w-full">
-                <input type="text" id="medDose" placeholder="Dosis (ej: 75mg)" class="p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-start focus:border-primary-start outline-none w-full">
-                <div class="time-input-container flex flex-col gap-2 w-full">
-                    <input type="time" id="medTimeInput" class="p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-start focus:border-primary-start outline-none w-full">
-                    <select id="medTimePreset" class="p-3 border-2 border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-start focus:border-primary-start outline-none w-full text-sm">
-                        <option value="">O selecciona horario común</option>
-                        <option value="06:00">6:00 AM</option><option value="08:00">8:00 AM</option>
-                        <option value="10:00">10:00 AM</option><option value="12:00">12:00 PM</option>
-                        <option value="14:00">2:00 PM</option><option value="18:00">6:00 PM</option>
-                        <option value="20:00">8:00 PM</option><option value="21:30">9:30 PM</option>
-                        <option value="22:00">10:00 PM</option>
-                    </select>
+        <div class="week-selector">
+            <label for="weekInput">Semana del:</label>
+            <input type="date" id="weekInput" onchange="updateWeekHeader()">
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('add')">➕ Agregar</button>
+            <button class="tab" onclick="showTab('list')">📋 Mis Medicamentos</button>
+            <button class="tab" onclick="showTab('tracker')">📅 Seguimiento</button>
+        </div>
+
+        <!-- Agregar Medicamento -->
+        <div id="add-content" class="content">
+            <h2>Agregar Nuevo Medicamento</h2>
+            <form onsubmit="addMedication(event)">
+                <div class="form-group">
+                    <label for="medName">Nombre del Medicamento:</label>
+                    <input type="text" id="medName" required placeholder="Ej: Levotiroxina">
                 </div>
-                <button id="addMedBtn" class="bg-gradient-to-r from-primary-start to-primary-end text-white p-3 rounded-lg font-semibold hover:opacity-90 transition-opacity w-full text-base">+ Agregar</button>
+
+                <div class="form-group">
+                    <label for="medDose">Dosis:</label>
+                    <input type="text" id="medDose" required placeholder="Ej: 75mg">
+                </div>
+
+                <div class="form-group">
+                    <label for="medTimes">Horarios (separados por coma):</label>
+                    <input type="text" id="medTimes" required placeholder="Ej: 08:00, 20:00">
+                </div>
+
+                <div class="form-group">
+                    <label>Días de la semana:</label>
+                    <div class="days-selector">
+                        <div class="day-checkbox" onclick="toggleDay(this)">
+                            <input type="checkbox" name="days" value="Lun">
+                            <span>Lunes</span>
+                        </div>
+                        <div class="day-checkbox" onclick="toggleDay(this)">
+                            <input type="checkbox" name="days" value="Mar">
+                            <span>Martes</span>
+                        </div>
+                        <div class="day-checkbox" onclick="toggleDay(this)">
+                            <input type="checkbox" name="days" value="Mié">
+                            <span>Miércoles</span>
+                        </div>
+                        <div class="day-checkbox" onclick="toggleDay(this)">
+                            <input type="checkbox" name="days" value="Jue">
+                            <span>Jueves</span>
+                        </div>
+                        <div class="day-checkbox" onclick="toggleDay(this)">
+                            <input type="checkbox" name="days" value="Vie">
+                            <span>Viernes</span>
+                        </div>
+                        <div class="day-checkbox" onclick="toggleDay(this)">
+                            <input type="checkbox" name="days" value="Sáb">
+                            <span>Sábado</span>
+                        </div>
+                        <div class="day-checkbox" onclick="toggleDay(this)">
+                            <input type="checkbox" name="days" value="Dom">
+                            <span>Domingo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Agregar Medicamento</button>
+            </form>
+        </div>
+
+        <!-- Lista de Medicamentos -->
+        <div id="list-content" class="content hidden">
+            <h2>Mis Medicamentos</h2>
+            <div id="med-list" class="med-list">
+                <div class="empty-state">
+                    <h3>No hay medicamentos agregados</h3>
+                    <p>Usa la pestaña "Agregar" para añadir tu primer medicamento</p>
+                </div>
             </div>
         </div>
 
-        <div class="meds-table p-5 overflow-x-auto">
-            <table class="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
-                <thead>
-                    <tr>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Medicamento</th>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Lun</th>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Mar</th>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Mié</th>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Jue</th>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Vie</th>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Sáb</th>
-                        <th class="bg-gradient-to-r from-primary-start to-primary-end text-white p-4 text-center font-semibold uppercase text-sm">Dom</th>
-                    </tr>
-                </thead>
-                <tbody id="medsTableBody" class="divide-y divide-gray-200">
+        <!-- Seguimiento Semanal -->
+        <div id="tracker-content" class="content hidden">
+            <h2>Seguimiento Semanal</h2>
+            <div id="week-display"></div>
+            <div class="weekly-tracker">
+                <table class="tracker-table" id="tracker-table">
+                    <thead>
+                        <tr>
+                            <th>Medicamento</th>
+                            <th>Lun</th>
+                            <th>Mar</th>
+                            <th>Mié</th>
+                            <th>Jue</th>
+                            <th>Vie</th>
+                            <th>Sáb</th>
+                            <th>Dom</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tracker-body">
+                        <tr>
+                            <td colspan="8" class="empty-state">
+                                <h3>No hay medicamentos para mostrar</h3>
+                                <p>Agrega medicamentos para ver el seguimiento semanal</p>
+                            </td>
+                        </tr>
                     </tbody>
-            </table>
-        </div>
-
-        <div class="notifications p-5 bg-gray-50 border-t border-gray-200 rounded-b-2xl">
-            <h3 class="text-xl font-semibold mb-3 text-gray-700">🔔 Recordatorios y Estadísticas</h3>
-            <div id="permissionStatus" class="p-3 mb-3 rounded-lg text-center font-medium text-sm"></div>
-            <div class="notification-controls grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-                <button id="requestNotificationBtn" class="bg-blue-500 hover:bg-blue-600 text-white p-2.5 rounded-lg text-sm transition-colors">Activar Notificaciones</button>
-                <button id="testNotificationBtn" class="bg-green-500 hover:bg-green-600 text-white p-2.5 rounded-lg text-sm transition-colors">Probar Notificación</button>
-                <button id="scheduleRemindersBtn" class="bg-purple-500 hover:bg-purple-600 text-white p-2.5 rounded-lg text-sm transition-colors">Programar Recordatorios</button>
-                <button id="exportDataBtn" class="bg-gray-700 hover:bg-gray-800 text-white p-2.5 rounded-lg text-sm transition-colors">Exportar Datos (JSON)</button>
-            </div>
-            
-            <div class="stats grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="stat-card bg-white p-4 rounded-lg shadow text-center">
-                    <div class="stat-number text-3xl font-bold text-primary-start" id="totalMeds">0</div>
-                    <div class="stat-label text-gray-600 text-sm">Medicamentos</div>
-                </div>
-                <div class="stat-card bg-white p-4 rounded-lg shadow text-center">
-                    <div class="stat-number text-3xl font-bold text-primary-start" id="completedToday">0</div>
-                    <div class="stat-label text-gray-600 text-sm">Tomados Hoy</div>
-                </div>
-                <div class="stat-card bg-white p-4 rounded-lg shadow text-center">
-                    <div class="stat-number text-3xl font-bold text-primary-start" id="weeklyProgress">0%</div>
-                    <div class="stat-label text-gray-600 text-sm">Progreso Semanal</div>
-                </div>
+                </table>
             </div>
         </div>
     </div>
 
-    <div id="customModal" class="modal-overlay">
-        <div class="modal-content">
-            <p id="modalMessage" class="mb-4 text-gray-700"></p>
-            <div id="modalActions" class="flex justify-center gap-3">
-                <button id="modalConfirmBtn" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors">Confirmar</button>
-                <button id="modalCancelBtn" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors">Cancelar</button>
-                <button id="modalOkBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2 rounded-lg transition-colors">OK</button>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        // Firebase App (the core Firebase SDK) is always required and must be listed first
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        // Add SDKs for Firebase products that you want to use
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, deleteDoc, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Your web app's Firebase configuration
-        // IMPORTANT: Replace with your actual Firebase config object
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        
-        // Initialize Firebase
-        let app;
-        let auth;
-        let db;
-        let userId = null; // To store the authenticated user's ID
-        let isAuthReady = false; // Flag to track auth state readiness
-
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-        } catch (error) {
-            console.error("Error initializing Firebase:", error);
-            showCustomModal(`Error al inicializar Firebase: ${error.message}. Algunas funciones pueden no estar disponibles.`, 'alert');
-        }
-        
-        // App ID for Firestore path
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-meds-app';
-
+    <script>
         let medications = [];
         let currentWeek = '';
-        let medsUnsubscribe = null; // To store Firestore listener unsubscribe function
 
-        // DOM Elements
-        const weekSelector = document.getElementById('weekSelector');
-        const medNameInput = document.getElementById('medName');
-        const medDoseInput = document.getElementById('medDose');
-        const medTimeInput = document.getElementById('medTimeInput');
-        const medTimePreset = document.getElementById('medTimePreset');
-        const medsTableBody = document.getElementById('medsTableBody');
-        const userIdDisplay = document.getElementById('userIdDisplay');
-
-        // Modal elements
-        const customModal = document.getElementById('customModal');
-        const modalMessage = document.getElementById('modalMessage');
-        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-        const modalCancelBtn = document.getElementById('modalCancelBtn');
-        const modalOkBtn = document.getElementById('modalOkBtn');
-        let confirmCallback = null;
-
-        // --- Modal Functions ---
-        function showCustomModal(message, type = 'alert', callback = null) {
-            modalMessage.textContent = message;
-            confirmCallback = callback;
-            if (type === 'confirm') {
-                modalConfirmBtn.style.display = 'inline-block';
-                modalCancelBtn.style.display = 'inline-block';
-                modalOkBtn.style.display = 'none';
-            } else { // alert
-                modalConfirmBtn.style.display = 'none';
-                modalCancelBtn.style.display = 'none';
-                modalOkBtn.style.display = 'inline-block';
-            }
-            customModal.classList.add('active');
+        // Inicializar la aplicación
+        function init() {
+            loadMedications();
+            setCurrentWeek();
+            updateWeekHeader();
+            renderMedicationList();
+            renderTracker();
         }
 
-        function hideCustomModal() {
-            customModal.classList.remove('active');
-            confirmCallback = null;
+        // Cargar medicamentos del almacenamiento
+        function loadMedications() {
+            const stored = JSON.parse(localStorage.getItem('medications') || '[]');
+            medications = stored;
         }
 
-        modalConfirmBtn.addEventListener('click', () => {
-            if (confirmCallback) confirmCallback(true);
-            hideCustomModal();
-        });
-        modalCancelBtn.addEventListener('click', () => {
-            if (confirmCallback) confirmCallback(false);
-            hideCustomModal();
-        });
-        modalOkBtn.addEventListener('click', hideCustomModal);
-
-
-        // --- Firebase Authentication ---
-        async function initializeAuth() {
-            if (!auth) return;
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    userId = user.uid;
-                    userIdDisplay.textContent = userId;
-                    isAuthReady = true;
-                    console.log("User is signed in with UID:", userId);
-                    await loadDataForCurrentWeek(); // Load data once auth is ready and week is set
-                } else {
-                    // User is signed out. Sign in anonymously.
-                    try {
-                        const userCredential = await signInAnonymously(auth);
-                        userId = userCredential.user.uid;
-                        userIdDisplay.textContent = userId;
-                        isAuthReady = true;
-                        console.log("Signed in anonymously with UID:", userId);
-                        await loadDataForCurrentWeek();
-                    } catch (error) {
-                        console.error("Error signing in anonymously:", error);
-                        showCustomModal(`Error de autenticación: ${error.message}`, 'alert');
-                        userIdDisplay.textContent = "Error de autenticación";
-                        isAuthReady = false; // Auth failed
-                    }
-                }
-            });
+        // Guardar medicamentos
+        function saveMedications() {
+            localStorage.setItem('medications', JSON.stringify(medications));
         }
 
-
-        // --- Application Logic ---
-        document.addEventListener('DOMContentLoaded', async function() {
-            setCurrentWeek(); // Set current week first
-            if (auth) { // Ensure auth is initialized before trying to use it
-                await initializeAuth(); // Initialize auth and load data after auth is ready
-            } else {
-                userIdDisplay.textContent = "Firebase no inicializado";
-                // Fallback or error display if Firebase didn't init
-                showCustomModal("Firebase no se pudo inicializar. El guardado de datos no funcionará.", "alert");
-            }
-            
-            renderTable(); // Initial render (might be empty)
-            updateStats();
-            checkNotificationPermission();
-            registerServiceWorker();
-
-            // Event Listeners
-            document.getElementById('addMedBtn').addEventListener('click', addMedication);
-            weekSelector.addEventListener('change', handleWeekChange);
-            medTimeInput.addEventListener('change', () => { if (medTimeInput.value) medTimePreset.value = ''; });
-            medTimePreset.addEventListener('change', () => { if (medTimePreset.value) medTimeInput.value = ''; });
-            
-            document.getElementById('requestNotificationBtn').addEventListener('click', requestNotificationPermission);
-            document.getElementById('testNotificationBtn').addEventListener('click', testNotification);
-            document.getElementById('scheduleRemindersBtn').addEventListener('click', scheduleReminders);
-            document.getElementById('exportDataBtn').addEventListener('click', exportData);
-        });
-        
-        async function handleWeekChange() {
-            currentWeek = weekSelector.value;
-            if (isAuthReady && userId && db) { // Ensure auth is ready and db is available
-                await loadDataForCurrentWeek();
-            } else if (!db) {
-                 showCustomModal("La base de datos no está disponible. No se pueden cargar datos.", "alert");
-            }
-             else {
-                console.warn("Auth not ready or userId not available yet for week change data load.");
-                // Optionally, clear the table or show a loading state
-                medications = []; // Clear local cache if auth isn't ready
-                renderTable();
-                updateStats();
-            }
-        }
-
-
-        function registerServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    const CACHE_NAME = 'meds-tracker-v2'; // Incremented version
-                    const urlsToCache = [
-                        '/', // Cache the root path (index.html)
-                        // Add other critical assets if they were external, e.g., CSS, main JS file
-                        // For single-file app, caching '/' is key.
-                    ];
-
-                    self.addEventListener('install', event => {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then(cache => {
-                                    console.log('Opened cache');
-                                    return cache.addAll(urlsToCache);
-                                })
-                        );
-                    });
-
-                    self.addEventListener('fetch', event => {
-                        event.respondWith(
-                            caches.match(event.request)
-                                .then(response => {
-                                    if (response) {
-                                        return response; // Serve from cache
-                                    }
-                                    return fetch(event.request).then(
-                                        // Optional: Cache new requests dynamically
-                                        // function(response) {
-                                        //    if(!response || response.status !== 200 || response.type !== 'basic') {
-                                        //        return response;
-                                        //    }
-                                        //    var responseToCache = response.clone();
-                                        //    caches.open(CACHE_NAME)
-                                        //        .then(function(cache) {
-                                        //            cache.put(event.request, responseToCache);
-                                        //        });
-                                        //    return response;
-                                        // }
-                                        response // Just fetch from network if not in cache
-                                    );
-                                })
-                        );
-                    });
-
-                    self.addEventListener('activate', event => {
-                        const cacheWhitelist = [CACHE_NAME];
-                        event.waitUntil(
-                            caches.keys().then(cacheNames => {
-                                return Promise.all(
-                                    cacheNames.map(cacheName => {
-                                        if (cacheWhitelist.indexOf(cacheName) === -1) {
-                                            return caches.delete(cacheName); // Delete old caches
-                                        }
-                                    })
-                                );
-                            })
-                        );
-                    });
-
-                    // Basic notification click handler
-                    self.addEventListener('notificationclick', function(event) {
-                        console.log('On notification click: ', event.notification.tag);
-                        event.notification.close();
-                        // This attempts to focus the main window if open, or open it.
-                        event.waitUntil(clients.matchAll({
-                            type: "window"
-                        }).then(function(clientList) {
-                            for (var i = 0; i < clientList.length; i++) {
-                                var client = clientList[i];
-                                if (client.url == '/' && 'focus' in client) // Adjust URL if needed
-                                    return client.focus();
-                            }
-                            if (clients.openWindow) // Adjust URL if needed
-                                return clients.openWindow('/');
-                        }));
-                    });
-                `;
-                
-                try {
-                    const blob = new Blob([swCode], { type: 'application/javascript' });
-                    const swUrl = URL.createObjectURL(blob);
-                
-                    navigator.serviceWorker.register(swUrl)
-                        .then(registration => console.log('Service Worker registrado con éxito:', registration))
-                        .catch(error => console.log('Registro de Service Worker falló:', error));
-                } catch (e) {
-                    console.error("Error creating SW blob URL:", e);
-                }
-            }
-        }
-
+        // Establecer semana actual
         function setCurrentWeek() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const day = now.getDay(); // 0 for Sunday, 1 for Monday, etc.
-            const date = now.getDate();
+            const today = new Date();
+            const monday = new Date(today);
+            monday.setDate(today.getDate() - today.getDay() + 1);
             
-            // Adjust to get the Monday of the current week
-            const currentMonday = new Date(now);
-            currentMonday.setDate(date - (day === 0 ? 6 : day - 1)); // if Sunday (0), go back 6 days, else day - 1
-
-            const week = getWeekNumber(currentMonday);
-            currentWeek = `${year}-W${week.toString().padStart(2, '0')}`;
-            weekSelector.value = currentWeek;
+            const year = monday.getFullYear();
+            const month = String(monday.getMonth() + 1).padStart(2, '0');
+            const day = String(monday.getDate()).padStart(2, '0');
+            
+            document.getElementById('weekInput').value = `${year}-${month}-${day}`;
+            currentWeek = `${year}-${month}-${day}`;
         }
 
-        function getWeekNumber(d) {
-            // Copy date so don't modify original
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            // Set to nearest Thursday: current date + 4 - current day number
-            // Make Sunday's day number 7
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-            // Get first day of year
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            // Calculate full weeks to nearest Thursday
-            var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-            // Return week number
-            return weekNo;
+        // Actualizar encabezado de semana
+        function updateWeekHeader() {
+            const dateInput = document.getElementById('weekInput');
+            currentWeek = dateInput.value;
+            
+            if (currentWeek) {
+                const date = new Date(currentWeek);
+                const options = { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                };
+                const formattedDate = date.toLocaleDateString('es-ES', options);
+                document.getElementById('week-display').innerHTML = 
+                    `<h3>Semana del ${formattedDate}</h3>`;
+            }
+            
+            renderTracker();
         }
 
-        function formatTime(timeString) {
-            if (!timeString || !timeString.includes(':')) return timeString; // Return as is if not HH:MM format
-            const [hours, minutes] = timeString.split(':');
-            let h = parseInt(hours);
-            const m = minutes.padStart(2, '0');
-            const ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12;
-            h = h ? h : 12; // Hour '0' should be '12'
-            return `${h}:${m} ${ampm}`;
+        // Cambiar pestañas
+        function showTab(tabName) {
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remover clase active de todas las pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar contenido seleccionado
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            
+            // Activar pestaña seleccionada
+            event.target.classList.add('active');
         }
 
-        async function addMedication() {
-            if (!db) {
-                showCustomModal("La base de datos no está disponible. No se puede agregar el medicamento.", "alert");
+        // Toggle selección de días
+        function toggleDay(element) {
+            const checkbox = element.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('selected', checkbox.checked);
+        }
+
+        // Agregar medicamento
+        function addMedication(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('medName').value;
+            const dose = document.getElementById('medDose').value;
+            const times = document.getElementById('medTimes').value.split(',').map(t => t.trim());
+            
+            const selectedDays = [];
+            document.querySelectorAll('input[name="days"]:checked').forEach(input => {
+                selectedDays.push(input.value);
+            });
+            
+            if (selectedDays.length === 0) {
+                alert('Por favor selecciona al menos un día de la semana');
                 return;
             }
-            const name = medNameInput.value.trim();
-            const dose = medDoseInput.value.trim();
-            const customTime = medTimeInput.value;
-            const presetTime = medTimePreset.value;
-            const time = customTime || presetTime;
-
-            if (!name) {
-                showCustomModal('Por favor ingresa el nombre del medicamento.', 'alert');
-                return;
-            }
-
-            const newMedication = {
-                id: Date.now().toString(), // Firestore prefers string IDs for documents if we were to make them separate docs
+            
+            const medication = {
+                id: Date.now(),
                 name: name,
                 dose: dose,
-                time: time,
-                schedule: [false, false, false, false, false, false, false] // Lun-Dom
+                times: times,
+                days: selectedDays,
+                tracking: {}
             };
-
-            medications.push(newMedication);
-            await saveData(); // Save the whole array
-            renderTable();
-            updateStats();
-
-            // Clear form
-            medNameInput.value = '';
-            medDoseInput.value = '';
-            medTimeInput.value = '';
-            medTimePreset.value = '';
-        }
-
-        async function deleteMedication(id) {
-            if (!db) {
-                showCustomModal("La base de datos no está disponible. No se puede eliminar el medicamento.", "alert");
-                return;
-            }
-            showCustomModal('¿Estás seguro de que quieres eliminar este medicamento?', 'confirm', async (confirmed) => {
-                if (confirmed) {
-                    medications = medications.filter(med => med.id !== id);
-                    await saveData();
-                    renderTable();
-                    updateStats();
-                }
+            
+            medications.push(medication);
+            saveMedications();
+            
+            // Limpiar formulario
+            document.getElementById('medName').value = '';
+            document.getElementById('medDose').value = '';
+            document.getElementById('medTimes').value = '';
+            document.querySelectorAll('input[name="days"]').forEach(input => {
+                input.checked = false;
+                input.parentElement.classList.remove('selected');
             });
-        }
-
-        async function toggleMedication(id, dayIndex) {
-            if (!db) {
-                 showCustomModal("La base de datos no está disponible. No se puede actualizar el medicamento.", "alert");
-                return;
-            }
-            const medIndex = medications.findIndex(m => m.id === id);
-            if (medIndex > -1) {
-                medications[medIndex].schedule[dayIndex] = !medications[medIndex].schedule[dayIndex];
-                await saveData(); // Save the whole array after modification
-                // No need to re-render, checkbox state is handled by its own change. Just update stats.
-                updateStats();
-            }
-        }
-        
-        function renderTable() {
-            medsTableBody.innerHTML = ''; // Clear existing rows
-
-            if (!medications || medications.length === 0) {
-                const row = medsTableBody.insertRow();
-                const cell = row.insertCell();
-                cell.colSpan = 8; // Span all columns
-                cell.textContent = 'No hay medicamentos agregados para esta semana. ¡Añade uno!';
-                cell.className = 'text-center text-gray-500 py-10';
-                return;
-            }
-
-            medications.forEach(med => {
-                const row = medsTableBody.insertRow();
-                row.className = "hover:bg-gray-50 transition-colors";
-
-                // Name, Dose, Time cell
-                const nameCell = row.insertCell();
-                nameCell.className = 'p-3 text-left text-sm text-gray-700 align-top';
-                let timeDisplay = med.time ? `<div class="text-xs text-gray-500">${formatTime(med.time)}</div>` : '';
-                let doseDisplay = med.dose ? `<div class="text-xs text-gray-500">${med.dose}</div>` : '';
-                nameCell.innerHTML = `
-                    <div class="font-semibold">${med.name}</div>
-                    ${doseDisplay}
-                    ${timeDisplay}
-                    <button class="delete-btn text-red-500 hover:text-red-700 text-xs font-semibold mt-1 transition-colors">Eliminar</button>
-                `;
-                nameCell.querySelector('.delete-btn').onclick = () => deleteMedication(med.id);
-                
-                // Day cells (checkboxes)
-                for (let i = 0; i < 7; i++) {
-                    const dayCell = row.insertCell();
-                    dayCell.className = 'p-3 text-center align-middle';
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.className = 'custom-checkbox';
-                    checkbox.checked = med.schedule[i];
-                    checkbox.onchange = () => toggleMedication(med.id, i);
-                    dayCell.appendChild(checkbox);
-                }
-            });
-        }
-
-        async function saveData() {
-            if (!userId || !db || !currentWeek) {
-                console.warn("Cannot save data: User ID, DB, or currentWeek not available.", {userId, dbReady: !!db, currentWeek});
-                showCustomModal("No se pudieron guardar los datos. Verifica tu conexión o la configuración de Firebase.", "alert");
-                return;
-            }
-            try {
-                const weekDocRef = doc(db, "artifacts", appId, "users", userId, "medsTrackerData", currentWeek);
-                // Firestore cannot store undefined values. Ensure medications array is clean.
-                const cleanMedications = medications.map(med => ({
-                    id: med.id || Date.now().toString(),
-                    name: med.name || "",
-                    dose: med.dose || "",
-                    time: med.time || "",
-                    schedule: Array.isArray(med.schedule) && med.schedule.length === 7 ? med.schedule : [false,false,false,false,false,false,false]
-                }));
-                await setDoc(weekDocRef, { medications: cleanMedications });
-                console.log("Data saved for week:", currentWeek);
-            } catch (error) {
-                console.error("Error saving data to Firestore:", error);
-                showCustomModal(`Error al guardar datos: ${error.message}`, 'alert');
-            }
-        }
-
-        async function loadDataForCurrentWeek() {
-            if (!userId || !db || !currentWeek) {
-                console.warn("Cannot load data: User ID, DB, or currentWeek not available.", {userId, dbReady: !!db, currentWeek});
-                medications = []; // Clear local cache
-                renderTable();
-                updateStats();
-                return;
-            }
-
-            // Unsubscribe from previous listener if exists
-            if (medsUnsubscribe) {
-                medsUnsubscribe();
-                medsUnsubscribe = null;
-            }
             
-            const weekDocRef = doc(db, "artifacts", appId, "users", userId, "medsTrackerData", currentWeek);
+            renderMedicationList();
+            renderTracker();
             
-            medsUnsubscribe = onSnapshot(weekDocRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    // Ensure medications is an array and handle undefined or null
-                    medications = Array.isArray(data.medications) ? data.medications : [];
-                    console.log("Data loaded for week:", currentWeek, medications);
-                } else {
-                    console.log("No data for week:", currentWeek, ". Initializing with empty array.");
-                    medications = [];
-                }
-                renderTable();
-                updateStats();
-            }, (error) => {
-                console.error("Error loading data from Firestore:", error);
-                showCustomModal(`Error al cargar datos: ${error.message}`, 'alert');
-                medications = []; // Fallback to empty on error
-                renderTable();
-                updateStats();
-            });
+            alert('Medicamento agregado exitosamente');
         }
 
-
-        function updateStats() {
-            const totalMeds = medications.length;
+        // Renderizar lista de medicamentos
+        function renderMedicationList() {
+            const listContainer = document.getElementById('med-list');
             
-            const today = new Date().getDay(); // Sunday: 0, Monday: 1, ..., Saturday: 6
-            const todayIndex = today === 0 ? 6 : today - 1; // Adjust to Mon:0 ... Sun:6
-            
-            const completedToday = medications.filter(med => med.schedule[todayIndex]).length;
-            
-            const totalPossibleDosesThisWeek = medications.length * 7; // Each med could be taken 7 times
-            const totalActualDosesTakenThisWeek = medications.reduce((sum, med) => 
-                sum + med.schedule.filter(taken => taken).length, 0);
-            
-            const weeklyProgress = totalPossibleDosesThisWeek > 0 ? 
-                Math.round((totalActualDosesTakenThisWeek / totalPossibleDosesThisWeek) * 100) : 0;
-
-            document.getElementById('totalMeds').textContent = totalMeds;
-            document.getElementById('completedToday').textContent = completedToday;
-            document.getElementById('weeklyProgress').textContent = weeklyProgress + '%';
-        }
-
-        // --- Notification Functions ---
-        const permissionStatusDiv = document.getElementById('permissionStatus');
-
-        function checkNotificationPermission() {
-            if (!('Notification' in window)) {
-                permissionStatusDiv.innerHTML = '<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">Tu navegador no soporta notificaciones.</div>';
-                return;
-            }
-            switch (Notification.permission) {
-                case 'granted':
-                    permissionStatusDiv.innerHTML = '<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">✅ Notificaciones activadas</div>';
-                    break;
-                case 'denied':
-                    permissionStatusDiv.innerHTML = '<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">❌ Notificaciones bloqueadas. Actívalas en la configuración del navegador.</div>';
-                    break;
-                default: // 'default' or prompt
-                    permissionStatusDiv.innerHTML = '<div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">⚠️ Notificaciones no configuradas. Haz clic en "Activar Notificaciones".</div>';
-            }
-        }
-
-        function requestNotificationPermission() {
-            if (!('Notification' in window)) {
-                showCustomModal('Tu navegador no soporta notificaciones.', 'alert');
-                return;
-            }
-            Notification.requestPermission().then(permission => {
-                checkNotificationPermission();
-                if (permission === 'granted') {
-                    showCustomModal('¡Notificaciones activadas correctamente!', 'alert');
-                } else {
-                    showCustomModal('Para recibir recordatorios, activa las notificaciones en la configuración del navegador.', 'alert');
-                }
-            });
-        }
-
-        function testNotification() {
-            if (Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification('Recordatorio de Prueba', {
-                        body: 'Esta es una notificación de prueba del seguidor de medicamentos.',
-                        icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgZmlsbD0iIzY2N2VlYSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptMCAxOGMtNC40MSAwLTgtMy41OS04LThzMy41OS04IDgtOCA4IDMuNTkgOCA4LTMuNTkgOC04IDh6bS0xLTFoMnYtMmgtMnYyem0wLTRoMnYtNmgtMnY2eiIvPjwvc3ZnPg==', // Simple pill icon
-                        tag: 'test-notification'
-                    });
-                });
-            } else {
-                showCustomModal('Primero debes activar las notificaciones.', 'alert');
-            }
-        }
-        
-        let scheduledTimeouts = []; // Store timeout IDs to clear them if needed
-
-        function scheduleReminders() {
-            if (Notification.permission !== 'granted') {
-                showCustomModal('Primero activa las notificaciones para programar recordatorios.', 'alert');
-                return;
-            }
-
-            // Clear any previously scheduled timeouts
-            scheduledTimeouts.forEach(timeoutId => clearTimeout(timeoutId));
-            scheduledTimeouts = [];
-
-            const now = new Date();
-            const todayDayIndex = now.getDay() === 0 ? 6 : now.getDay() - 1; // Mon:0 .. Sun:6
-
-            let remindersScheduledCount = 0;
-            const remindersListForAlert = [];
-
-            medications.forEach(med => {
-                // Check if the medication is scheduled for today and has a time
-                if (med.schedule[todayDayIndex] && med.time) {
-                    const [hours, minutes] = med.time.split(':');
-                    const reminderTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(hours), parseInt(minutes), 0);
-
-                    if (reminderTime > now) { // Only schedule for future times today
-                        const delay = reminderTime.getTime() - now.getTime();
-                        const timeoutId = setTimeout(() => {
-                            navigator.serviceWorker.ready.then(registration => {
-                                registration.showNotification(`Recordatorio: ${med.name}`, {
-                                    body: `Es hora de tomar tu medicamento: ${med.name} (${med.dose || ''} a las ${formatTime(med.time)})`,
-                                    icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgZmlsbD0iIzY2N2VlYSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptMCAxOGMtNC40MSAwLTgtMy41OS04LThzMy41OS04IDgtOCA4IDMuNTkgOCA4LTMuNTkgOC04IDh6bS0xLTFoMnYtMmgtMnYyem0wLTRoMnYtNmgtMnY2eiIvPjwvc3ZnPg==',
-                                    tag: `med-${med.id}-${med.time}` // Unique tag for the notification
-                                });
-                            });
-                        }, delay);
-                        scheduledTimeouts.push(timeoutId);
-                        remindersScheduledCount++;
-                        remindersListForAlert.push(`${med.name} a las ${formatTime(med.time)}`);
-                    }
-                }
-            });
-
-            if (remindersScheduledCount > 0) {
-                showCustomModal(`Se han programado ${remindersScheduledCount} recordatorio(s) para hoy:\n\n${remindersListForAlert.join('\n')}\n\nNota: Estos recordatorios funcionarán mejor si mantienes esta página abierta o la PWA activa.`, 'alert');
-            } else {
-                showCustomModal('No hay medicamentos con horario programado para hoy o ya pasaron sus horas.', 'alert');
-            }
-        }
-        
-        // --- Export Data ---
-        function exportData() {
             if (medications.length === 0) {
-                showCustomModal("No hay datos de medicamentos para exportar en la semana actual.", "alert");
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No hay medicamentos agregados</h3>
+                        <p>Usa la pestaña "Agregar" para añadir tu primer medicamento</p>
+                    </div>
+                `;
                 return;
             }
-            const dataToExport = {
-                week: currentWeek,
-                medications: medications
-            };
-            const jsonData = JSON.stringify(dataToExport, null, 2); // Pretty print JSON
-            const blob = new Blob([jsonData], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `medicamentos_${currentWeek}_backup.json`;
-            document.body.appendChild(a); // Required for Firefox
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showCustomModal(`Datos de la semana ${currentWeek} exportados.`, "alert");
+            
+            listContainer.innerHTML = medications.map(med => `
+                <div class="med-item">
+                    <div class="med-name">${med.name}</div>
+                    <div class="med-dose">Dosis: ${med.dose}</div>
+                    <div class="med-schedule">
+                        Horarios: ${med.times.join(', ')}<br>
+                        Días: ${med.days.join(', ')}
+                    </div>
+                    <div class="med-actions">
+                        <button class="btn-sm btn-danger" onclick="deleteMedication(${med.id})">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // Expose functions to global scope if needed by inline HTML event handlers (though it's better to use addEventListener)
-        // window.addMedication = addMedication; // Example, but we use addEventListener now
-        window.deleteMedication = deleteMedication; // Still used by dynamically created buttons
-        window.toggleMedication = toggleMedication; // Still used by dynamically created checkboxes
+        // Eliminar medicamento
+        function deleteMedication(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este medicamento?')) {
+                medications = medications.filter(med => med.id !== id);
+                saveMedications();
+                renderMedicationList();
+                renderTracker();
+            }
+        }
 
+        // Renderizar seguimiento
+        function renderTracker() {
+            const tbody = document.getElementById('tracker-body');
+            
+            if (medications.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            <h3>No hay medicamentos para mostrar</h3>
+                            <p>Agrega medicamentos para ver el seguimiento semanal</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+            
+            tbody.innerHTML = medications.map(med => {
+                return `
+                    <tr>
+                        <td class="med-name-cell">${med.name}<br><small>${med.dose}</small></td>
+                        ${days.map(day => {
+                            const isScheduled = med.days.includes(day);
+                            const trackingKey = `${currentWeek}-${day}`;
+                            const isTaken = med.tracking && med.tracking[trackingKey];
+                            
+                            if (!isScheduled) {
+                                return '<td style="background: #f8f9fa;">-</td>';
+                            }
+                            
+                            return `
+                                <td>
+                                    <div class="check-circle ${isTaken ? 'checked' : ''}" 
+                                         onclick="toggleTracking(${med.id}, '${day}')">
+                                    </div>
+                                </td>
+                            `;
+                        }).join('')}
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Toggle seguimiento
+        function toggleTracking(medId, day) {
+            const medication = medications.find(med => med.id === medId);
+            if (!medication) return;
+            
+            if (!medication.tracking) {
+                medication.tracking = {};
+            }
+            
+            const trackingKey = `${currentWeek}-${day}`;
+            medication.tracking[trackingKey] = !medication.tracking[trackingKey];
+            
+            saveMedications();
+            renderTracker();
+        }
+
+        // Inicializar cuando la página carga
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
