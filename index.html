@@ -40,29 +40,42 @@
             margin-bottom: 10px;
         }
 
-        .week-selector {
+        .week-info {
             background: white;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
-        .week-selector label {
-            display: block;
-            font-size: 20px;
-            font-weight: bold;
+        .week-info h3 {
+            font-size: 22px;
             color: #333;
             margin-bottom: 10px;
         }
 
-        .week-selector input {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            border: 2px solid #ddd;
+        .week-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .week-nav button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
             border-radius: 10px;
-            background: #f9f9f9;
+            cursor: pointer;
+            background: #4a90e2;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .week-nav button:hover {
+            background: #357abd;
         }
 
         .tabs {
@@ -108,6 +121,77 @@
             display: none;
         }
 
+        /* Alertas */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        /* Notificaciones */
+        .notification-panel {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 6px solid #28a745;
+        }
+
+        .notification-panel h3 {
+            color: #155724;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .reminder-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .reminder-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .reminder-time {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .btn-take {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-take:hover {
+            background: #218838;
+        }
+
         /* Formulario Agregar Medicamento */
         .form-group {
             margin-bottom: 20px;
@@ -128,6 +212,12 @@
             border: 2px solid #ddd;
             border-radius: 10px;
             background: #f9f9f9;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
         }
 
         .days-selector {
@@ -198,6 +288,42 @@
             padding: 20px;
             border-left: 6px solid #4a90e2;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .med-item.low-stock {
+            border-left-color: #ffc107;
+            background: #fff8e1;
+        }
+
+        .med-item.no-stock {
+            border-left-color: #dc3545;
+            background: #ffebee;
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .stock-ok {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stock-low {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .stock-empty {
+            background: #f8d7da;
+            color: #721c24;
         }
 
         .med-name {
@@ -205,6 +331,7 @@
             font-weight: bold;
             color: #333;
             margin-bottom: 8px;
+            padding-right: 80px;
         }
 
         .med-dose {
@@ -216,6 +343,19 @@
         .med-schedule {
             font-size: 16px;
             color: #888;
+            margin-bottom: 10px;
+        }
+
+        .med-stock {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .stock-actions {
+            display: flex;
+            gap: 10px;
             margin-bottom: 15px;
         }
 
@@ -233,6 +373,15 @@
             transition: all 0.3s ease;
         }
 
+        .btn-warning {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
         .btn-danger {
             background: #dc3545;
             color: white;
@@ -240,6 +389,15 @@
 
         .btn-danger:hover {
             background: #c82333;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
         }
 
         /* Seguimiento Semanal */
@@ -331,6 +489,14 @@
                 font-size: 14px;
                 padding: 12px 8px;
             }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stock-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -341,19 +507,44 @@
             <p>Seguimiento fácil y seguro</p>
         </div>
 
-        <div class="week-selector">
-            <label for="weekInput">Semana del:</label>
-            <input type="date" id="weekInput" onchange="updateWeekHeader()">
+        <!-- Alertas de stock -->
+        <div id="stock-alerts"></div>
+
+        <!-- Recordatorios del día -->
+        <div id="daily-reminders" class="notification-panel" style="display: none;">
+            <h3>🔔 Recordatorios de hoy</h3>
+            <div id="reminders-list"></div>
+        </div>
+
+        <div class="week-info">
+            <h3 id="week-display">Semana actual</h3>
+            <div class="week-nav">
+                <button onclick="changeWeek(-1)">← Semana anterior</button>
+                <button onclick="goToCurrentWeek()">Semana actual</button>
+                <button onclick="changeWeek(1)">Semana siguiente →</button>
+            </div>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="showTab('add')">➕ Agregar</button>
-            <button class="tab" onclick="showTab('list')">📋 Mis Medicamentos</button>
+            <button class="tab active" onclick="showTab('reminders')">🔔 Hoy</button>
+            <button class="tab" onclick="showTab('add')">➕ Agregar</button>
+            <button class="tab" onclick="showTab('list')">📋 Medicamentos</button>
             <button class="tab" onclick="showTab('tracker')">📅 Seguimiento</button>
         </div>
 
+        <!-- Recordatorios de hoy -->
+        <div id="reminders-content" class="content">
+            <h2>Recordatorios de hoy</h2>
+            <div id="today-reminders">
+                <div class="empty-state">
+                    <h3>No hay recordatorios para hoy</h3>
+                    <p>Agrega medicamentos para ver los recordatorios diarios</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Agregar Medicamento -->
-        <div id="add-content" class="content">
+        <div id="add-content" class="content hidden">
             <h2>Agregar Nuevo Medicamento</h2>
             <form onsubmit="addMedication(event)">
                 <div class="form-group">
@@ -361,14 +552,26 @@
                     <input type="text" id="medName" required placeholder="Ej: Levotiroxina">
                 </div>
 
-                <div class="form-group">
-                    <label for="medDose">Dosis:</label>
-                    <input type="text" id="medDose" required placeholder="Ej: 75mg">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="medDose">Dosis:</label>
+                        <input type="text" id="medDose" required placeholder="Ej: 75mg">
+                    </div>
+                    <div class="form-group">
+                        <label for="medStock">Pastillas en caja:</label>
+                        <input type="number" id="medStock" min="1" placeholder="Ej: 30">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="medTimes">Horarios (separados por coma):</label>
-                    <input type="text" id="medTimes" required placeholder="Ej: 08:00, 20:00">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="medTimes">Horarios (separados por coma):</label>
+                        <input type="text" id="medTimes" required placeholder="Ej: 08:00, 20:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="alertDays">Avisar con días de anticipación:</label>
+                        <input type="number" id="alertDays" min="1" max="30" value="5" placeholder="5">
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -423,7 +626,6 @@
         <!-- Seguimiento Semanal -->
         <div id="tracker-content" class="content hidden">
             <h2>Seguimiento Semanal</h2>
-            <div id="week-display"></div>
             <div class="weekly-tracker">
                 <table class="tracker-table" id="tracker-table">
                     <thead>
@@ -453,15 +655,20 @@
 
     <script>
         let medications = [];
-        let currentWeek = '';
+        let currentWeekStart = new Date();
 
         // Inicializar la aplicación
         function init() {
             loadMedications();
             setCurrentWeek();
-            updateWeekHeader();
+            updateWeekDisplay();
+            checkStockAlerts();
             renderMedicationList();
             renderTracker();
+            renderTodayReminders();
+            
+            // Actualizar recordatorios cada minuto
+            setInterval(renderTodayReminders, 60000);
         }
 
         // Cargar medicamentos del almacenamiento
@@ -480,51 +687,198 @@
             const today = new Date();
             const monday = new Date(today);
             monday.setDate(today.getDate() - today.getDay() + 1);
-            
-            const year = monday.getFullYear();
-            const month = String(monday.getMonth() + 1).padStart(2, '0');
-            const day = String(monday.getDate()).padStart(2, '0');
-            
-            document.getElementById('weekInput').value = `${year}-${month}-${day}`;
-            currentWeek = `${year}-${month}-${day}`;
+            currentWeekStart = monday;
         }
 
-        // Actualizar encabezado de semana
-        function updateWeekHeader() {
-            const dateInput = document.getElementById('weekInput');
-            currentWeek = dateInput.value;
+        // Ir a semana actual
+        function goToCurrentWeek() {
+            setCurrentWeek();
+            updateWeekDisplay();
+            renderTracker();
+            renderTodayReminders();
+        }
+
+        // Cambiar semana
+        function changeWeek(direction) {
+            currentWeekStart.setDate(currentWeekStart.getDate() + (direction * 7));
+            updateWeekDisplay();
+            renderTracker();
+            renderTodayReminders();
+        }
+
+        // Actualizar display de semana
+        function updateWeekDisplay() {
+            const startDate = new Date(currentWeekStart);
+            const endDate = new Date(currentWeekStart);
+            endDate.setDate(endDate.getDate() + 6);
             
-            if (currentWeek) {
-                const date = new Date(currentWeek);
-                const options = { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                };
-                const formattedDate = date.toLocaleDateString('es-ES', options);
-                document.getElementById('week-display').innerHTML = 
-                    `<h3>Semana del ${formattedDate}</h3>`;
+            const options = { day: 'numeric', month: 'long' };
+            const startStr = startDate.toLocaleDateString('es-ES', options);
+            const endStr = endDate.toLocaleDateString('es-ES', options);
+            const year = startDate.getFullYear();
+            
+            document.getElementById('week-display').textContent = 
+                `Semana del ${startStr} al ${endStr} de ${year}`;
+        }
+
+        // Verificar alertas de stock
+        function checkStockAlerts() {
+            const alertsContainer = document.getElementById('stock-alerts');
+            const alerts = [];
+            
+            medications.forEach(med => {
+                if (med.currentStock !== undefined) {
+                    const daysRemaining = calculateDaysRemaining(med);
+                    
+                    if (med.currentStock === 0) {
+                        alerts.push(`
+                            <div class="alert alert-danger">
+                                ⚠️ <strong>${med.name}</strong> se ha terminado. ¡Compra más pastillas!
+                            </div>
+                        `);
+                    } else if (daysRemaining <= med.alertDays) {
+                        alerts.push(`
+                            <div class="alert alert-warning">
+                                ⚠️ <strong>${med.name}</strong> se terminará en ${daysRemaining} día(s). Quedan ${med.currentStock} pastillas.
+                            </div>
+                        `);
+                    }
+                }
+            });
+            
+            alertsContainer.innerHTML = alerts.join('');
+        }
+
+        // Calcular días restantes
+        function calculateDaysRemaining(med) {
+            if (!med.currentStock || med.currentStock === 0) return 0;
+            
+            const dailyConsumption = med.times.length * med.days.length / 7;
+            return Math.floor(med.currentStock / dailyConsumption);
+        }
+
+        // Renderizar recordatorios de hoy
+        function renderTodayReminders() {
+            const today = new Date();
+            const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            const todayName = dayNames[today.getDay()];
+            
+            const todayReminders = [];
+            
+            medications.forEach(med => {
+                if (med.days.includes(todayName)) {
+                    med.times.forEach(time => {
+                        const [hours, minutes] = time.split(':');
+                        const reminderTime = new Date();
+                        reminderTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                        
+                        const trackingKey = `${getWeekKey()}-${todayName}-${time}`;
+                        const isTaken = med.tracking && med.tracking[trackingKey];
+                        
+                        todayReminders.push({
+                            medication: med,
+                            time: time,
+                            reminderTime: reminderTime,
+                            isTaken: isTaken,
+                            trackingKey: trackingKey
+                        });
+                    });
+                }
+            });
+            
+            // Ordenar por hora
+            todayReminders.sort((a, b) => a.reminderTime - b.reminderTime);
+            
+            const container = document.getElementById('today-reminders');
+            
+            if (todayReminders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No hay recordatorios para hoy</h3>
+                        <p>Agrega medicamentos para ver los recordatorios diarios</p>
+                    </div>
+                `;
+                return;
             }
             
+            const now = new Date();
+            
+            container.innerHTML = todayReminders.map(reminder => {
+                const isPending = !reminder.isTaken && reminder.reminderTime <= now;
+                const isUpcoming = !reminder.isTaken && reminder.reminderTime > now;
+                
+                let statusClass = '';
+                let statusText = '';
+                
+                if (reminder.isTaken) {
+                    statusClass = 'btn-success';
+                    statusText = '✓ Tomado';
+                } else if (isPending) {
+                    statusClass = 'btn-danger';
+                    statusText = '⏰ Pendiente';
+                } else {
+                    statusClass = 'btn-warning';
+                    statusText = 'Marcar como tomado';
+                }
+                
+                return `
+                    <div class="reminder-item ${isPending ? 'alert-danger' : ''}">
+                        <div>
+                            <div class="reminder-text">${reminder.medication.name} - ${reminder.medication.dose}</div>
+                            <div class="reminder-time">${reminder.time}</div>
+                        </div>
+                        <button class="btn-take ${statusClass}" 
+                                onclick="markAsTaken('${reminder.trackingKey}', ${reminder.medication.id})"
+                                ${reminder.isTaken ? 'disabled' : ''}>
+                            ${statusText}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Marcar como tomado
+        function markAsTaken(trackingKey, medId) {
+            const medication = medications.find(med => med.id === medId);
+            if (!medication) return;
+            
+            if (!medication.tracking) {
+                medication.tracking = {};
+            }
+            
+            medication.tracking[trackingKey] = true;
+            
+            // Reducir stock si está configurado
+            if (medication.currentStock !== undefined && medication.currentStock > 0) {
+                medication.currentStock--;
+            }
+            
+            saveMedications();
+            renderTodayReminders();
+            renderMedicationList();
             renderTracker();
+            checkStockAlerts();
+        }
+
+        // Obtener clave de semana
+        function getWeekKey() {
+            const year = currentWeekStart.getFullYear();
+            const month = String(currentWeekStart.getMonth() + 1).padStart(2, '0');
+            const day = String(currentWeekStart.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
         }
 
         // Cambiar pestañas
         function showTab(tabName) {
-            // Ocultar todos los contenidos
             document.querySelectorAll('.content').forEach(content => {
                 content.classList.add('hidden');
             });
             
-            // Remover clase active de todas las pestañas
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Mostrar contenido seleccionado
             document.getElementById(tabName + '-content').classList.remove('hidden');
-            
-            // Activar pestaña seleccionada
             event.target.classList.add('active');
         }
 
@@ -541,6 +895,8 @@
             
             const name = document.getElementById('medName').value;
             const dose = document.getElementById('medDose').value;
+            const stock = parseInt(document.getElementById('medStock').value) || 0;
+            const alertDays = parseInt(document.getElementById('alertDays').value) || 5;
             const times = document.getElementById('medTimes').value.split(',').map(t => t.trim());
             
             const selectedDays = [];
@@ -559,6 +915,9 @@
                 dose: dose,
                 times: times,
                 days: selectedDays,
+                totalStock: stock,
+                currentStock: stock,
+                alertDays: alertDays,
                 tracking: {}
             };
             
@@ -568,121 +927,6 @@
             // Limpiar formulario
             document.getElementById('medName').value = '';
             document.getElementById('medDose').value = '';
+            document.getElementById('medStock').value = '';
             document.getElementById('medTimes').value = '';
-            document.querySelectorAll('input[name="days"]').forEach(input => {
-                input.checked = false;
-                input.parentElement.classList.remove('selected');
-            });
-            
-            renderMedicationList();
-            renderTracker();
-            
-            alert('Medicamento agregado exitosamente');
-        }
-
-        // Renderizar lista de medicamentos
-        function renderMedicationList() {
-            const listContainer = document.getElementById('med-list');
-            
-            if (medications.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state">
-                        <h3>No hay medicamentos agregados</h3>
-                        <p>Usa la pestaña "Agregar" para añadir tu primer medicamento</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            listContainer.innerHTML = medications.map(med => `
-                <div class="med-item">
-                    <div class="med-name">${med.name}</div>
-                    <div class="med-dose">Dosis: ${med.dose}</div>
-                    <div class="med-schedule">
-                        Horarios: ${med.times.join(', ')}<br>
-                        Días: ${med.days.join(', ')}
-                    </div>
-                    <div class="med-actions">
-                        <button class="btn-sm btn-danger" onclick="deleteMedication(${med.id})">
-                            🗑️ Eliminar
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Eliminar medicamento
-        function deleteMedication(id) {
-            if (confirm('¿Estás seguro de que quieres eliminar este medicamento?')) {
-                medications = medications.filter(med => med.id !== id);
-                saveMedications();
-                renderMedicationList();
-                renderTracker();
-            }
-        }
-
-        // Renderizar seguimiento
-        function renderTracker() {
-            const tbody = document.getElementById('tracker-body');
-            
-            if (medications.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="8" class="empty-state">
-                            <h3>No hay medicamentos para mostrar</h3>
-                            <p>Agrega medicamentos para ver el seguimiento semanal</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-            
-            tbody.innerHTML = medications.map(med => {
-                return `
-                    <tr>
-                        <td class="med-name-cell">${med.name}<br><small>${med.dose}</small></td>
-                        ${days.map(day => {
-                            const isScheduled = med.days.includes(day);
-                            const trackingKey = `${currentWeek}-${day}`;
-                            const isTaken = med.tracking && med.tracking[trackingKey];
-                            
-                            if (!isScheduled) {
-                                return '<td style="background: #f8f9fa;">-</td>';
-                            }
-                            
-                            return `
-                                <td>
-                                    <div class="check-circle ${isTaken ? 'checked' : ''}" 
-                                         onclick="toggleTracking(${med.id}, '${day}')">
-                                    </div>
-                                </td>
-                            `;
-                        }).join('')}
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // Toggle seguimiento
-        function toggleTracking(medId, day) {
-            const medication = medications.find(med => med.id === medId);
-            if (!medication) return;
-            
-            if (!medication.tracking) {
-                medication.tracking = {};
-            }
-            
-            const trackingKey = `${currentWeek}-${day}`;
-            medication.tracking[trackingKey] = !medication.tracking[trackingKey];
-            
-            saveMedications();
-            renderTracker();
-        }
-
-        // Inicializar cuando la página carga
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
-</body>
-</html>
+            document.getElementById('alertDays').value = '5';
